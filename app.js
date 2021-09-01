@@ -15,7 +15,21 @@ var config = {
 firebase.initializeApp(config);
 
 var db = firebase.database();
+var my_turn = '0';
+var my_time = '0';
+
 db.ref("/turn-table").on("value", function(changedSnapshot) {
-	var time = changedSnapshot.child("time").val();
-	console.log('time is ' + time);
+
+	var new_turn = changedSnapshot.child("turn").val();
+	var my_time = changedSnapshot.child("time").val();
+
+	if (my_turn = '0' && new_turn == '1'){
+		console.log('turn 0->1');
+		db.ref("/turn-table").update({
+		    "turn":0
+		});
+	}
+
+	my_turn = new_turn;
+
 });
